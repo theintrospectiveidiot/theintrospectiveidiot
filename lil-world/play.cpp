@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstdarg>
 
+#define MAX_INT_AS_STR_LEN 10
 #define SIZE 32
 #define CAP (128*128/SIZE)
 
@@ -49,7 +50,7 @@ class program {
             for (unsigned long i = 0; i < size; i++) {
                 const char *temp = va_arg(args, const char *);
 
-                //std::printf("%s\n", temp);
+                std::printf("%s\n", temp);
                 current_argv[i] = temp;
             }
 
@@ -87,9 +88,11 @@ class program {
 
 class var {
     private:
-        int val     {};
-        int index   {};
-        int addr    {};
+        int val         {};
+        int index       {};
+        int addr        {};
+        
+        char int_str[MAX_INT_AS_STR_LEN + 1]   {};
 
     public:
         var(const int value)
@@ -101,28 +104,42 @@ class var {
               everything[curr_index] = addr;
               curr_index += 1;
           }
-       
+         
+        void init_str() {
+            int temp = val;
+            for (int i = MAX_INT_AS_STR_LEN - 1; i >= 0; i--) {
+                int_str[i] = (temp % 10) + '0';
+                temp /= 10;
+            }
+            int_str[MAX_INT_AS_STR_LEN] = '\0';
+        }      
+        
         int get_addr() const {
             return addr;
+        }
+
+        const char *as_str() {
+            init_str();
+
+            std::printf("The (val) as str: %s\n", int_str);
+            return const_cast<const char *>(int_str);
         }
 
         void print() const {
             std::printf("[INDEX]: %d\n[VAL]  : %d\n[ADDR] : %d\n", index, val, addr);
         }
+
+
 };
 
 void into(var& A, var& B) {
     /* for A */
 
-    std::fseek(m, A.get_addr(), SEEK_SET);
-    char A_bin[33] {};
-    std::fgets(A_bin, 33, m);
-    
+    const char *A_bin {A.as_str()};
+
     /* for B */
 
-    std::fseek(m, B.get_addr(), SEEK_SET);
-    char B_bin[33] {};
-    std::fgets(B_bin, 33, m);
+    const char *B_bin {B.as_str()};
 
     program trial {"./banana"};
     trial.set_args("./banana", "-m", A_bin, B_bin);
@@ -146,6 +163,8 @@ int main() {
     std::printf("\n\nTrying to multiply: \n");
     std::printf("\n(A):\n"); A.print(); 
     std::printf("\n(B):\n"); B.print();
+    //A.as_str();
+
 
     into(A, B);
 
