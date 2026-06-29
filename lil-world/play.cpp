@@ -40,6 +40,7 @@ class var {
         char int_str[MAX_INT_AS_STR_LEN + 1]   {};
 
     public:
+
         var(const int value)
         : val   {value}, 
           index {curr_index},
@@ -48,6 +49,7 @@ class var {
               milky_twilight(addr, val);
               everything[curr_index] = addr;
               curr_index += 1;
+              init_str();
           }
          
         void init_str() {
@@ -64,9 +66,8 @@ class var {
         }
 
         const char *as_str() {
-            init_str();
 
-            std::printf("The (val) as str: %s\n", int_str);
+            //std::printf("The (val) as str: %s\n", int_str);
             return const_cast<const char *>(int_str);
         }
 
@@ -87,9 +88,17 @@ void into(var& A, var& B) {
     const char *B_bin {B.as_str()};
 
     program trial {"./banana"};
-    trial.set_args("./banana", "-m", A_bin, B_bin);
+    trial.set_args("./banana", "-m", A.as_str(), B_bin);
     trial.show_me();
     trial.run();
+}
+
+void plus(var& A, var& B) {
+    program edd {"./banana"};
+    edd.set_args("./banana", "-e", A.as_str(), B.as_str());
+
+    edd.show_me();
+    edd.run();
 }
 
 int main() {
@@ -113,6 +122,12 @@ int main() {
 
     into(A, B);
 
+    std::printf("\n\nTrying to add: \n");
+    std::printf("\n(A): \n"); A.print();
+
+    std::printf("\n(B): \n"); B.print();
+
+    plus(A, B);
     /*std::srand(time(0));
 
     int p = rand_i();
