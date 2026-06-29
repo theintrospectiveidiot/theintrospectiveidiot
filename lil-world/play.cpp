@@ -78,17 +78,17 @@ class var {
 
 };
 
+void start_new_world() {
+    program new_world {"./fill_mem"};
+    new_world.set_args("./fill_mem");
+
+    new_world.run();
+}
+
 void into(var& A, var& B) {
-    /* for A */
-
-    const char *A_bin {A.as_str()};
-
-    /* for B */
-
-    const char *B_bin {B.as_str()};
-
     program trial {"./banana"};
-    trial.set_args("./banana", "-m", A.as_str(), B_bin);
+    trial.set_args("./banana", "-m", A.as_str(), B.as_str());
+    
     trial.show_me();
     trial.run();
 }
@@ -105,9 +105,14 @@ int main() {
 
     curr_index = 0;
     m = std::fopen("mem", "r+");
+    
+    start_new_world();
 
-    var A {1806};
-    var B {1790};
+    var A {1};
+    var B {2};
+    var C {3};
+    var D {4};
+    var E {5};
    
     std::printf("(B)\n"); B.print();
 
@@ -115,19 +120,19 @@ int main() {
 
 
     std::printf("\n\nTrying to multiply: \n");
-    std::printf("\n(A):\n"); A.print(); 
-    std::printf("\n(B):\n"); B.print();
+    std::printf("\n(D):\n"); D.print(); 
+    std::printf("\n(E):\n"); E.print();
     //A.as_str();
 
 
-    into(A, B);
+    into(D, E);
 
     std::printf("\n\nTrying to add: \n");
     std::printf("\n(A): \n"); A.print();
 
     std::printf("\n(B): \n"); B.print();
 
-    plus(A, B);
+    //plus(A, B);
     /*std::srand(time(0));
 
     int p = rand_i();
