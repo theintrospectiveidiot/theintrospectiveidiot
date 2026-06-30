@@ -47,7 +47,7 @@ class program {
                 return r;
             }
             else if(state > 0){
-                wait(NULL);
+                waitpid(state, NULL, 0);
                 return 0;
             }
             return -1;

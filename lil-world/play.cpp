@@ -89,7 +89,7 @@ void into(var& A, var& B) {
     program trial {"./banana"};
     trial.set_args("./banana", "-m", A.as_str(), B.as_str());
     
-    trial.show_me();
+    //trial.show_me();
     trial.run();
 }
 
@@ -97,7 +97,7 @@ void plus(var& A, var& B) {
     program edd {"./banana"};
     edd.set_args("./banana", "-e", A.as_str(), B.as_str());
 
-    edd.show_me();
+    //edd.show_me();
     edd.run();
 }
 
