@@ -98,12 +98,17 @@ var into(var& A, var& B) {
     return prod;
 }
 
-void plus(var& A, var& B) {
+var plus(var& A, var& B) {
     program edd {"./banana"};
     edd.set_args("./banana", "-e", A.as_str(), B.as_str());
 
+    char sum_str[128];
     //edd.show_me();
-    edd.run();
+    edd.run(sum_str);
+
+    var sum {std::atoi(sum_str)};
+
+    return sum;
 }
 
 int main() {
@@ -133,11 +138,15 @@ int main() {
     var F = into(D, E);
     std::printf("\n(F):\n"); F.print();
 
-    /*std::printf("\n\nTrying to add: \n");
+    std::printf("\n\nTrying to add: \n");
     std::printf("\n(A): \n"); A.print();
 
-    std::printf("\n(B): \n"); B.print();*/
+    std::printf("\n(B): \n"); B.print();
 
+
+    var G = plus(A, B);
+
+    std::printf("\n(G):\n"); G.print();
     //plus(A, B);
     /*std::srand(time(0));
 
