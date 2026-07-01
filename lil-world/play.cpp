@@ -85,12 +85,17 @@ void start_new_world() {
     new_world.run();
 }
 
-void into(var& A, var& B) {
+var into(var& A, var& B) {
     program trial {"./banana"};
     trial.set_args("./banana", "-m", A.as_str(), B.as_str());
     
+    char prod_str[128];
     //trial.show_me();
-    trial.run();
+    trial.run(prod_str);
+
+    //std::printf("%s", prod_str);
+    var prod {std::atoi(prod_str)};
+    return prod;
 }
 
 void plus(var& A, var& B) {
@@ -125,12 +130,13 @@ int main() {
     //A.as_str();
 
 
-    into(D, E);
+    var F = into(D, E);
+    std::printf("\n(F):\n"); F.print();
 
-    std::printf("\n\nTrying to add: \n");
+    /*std::printf("\n\nTrying to add: \n");
     std::printf("\n(A): \n"); A.print();
 
-    std::printf("\n(B): \n"); B.print();
+    std::printf("\n(B): \n"); B.print();*/
 
     //plus(A, B);
     /*std::srand(time(0));

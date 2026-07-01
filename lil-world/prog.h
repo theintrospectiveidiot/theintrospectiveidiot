@@ -52,4 +52,39 @@ class program {
             }
             return -1;
         }
+        
+        int run(char *res) {
+           
+            int stuff[2];
+            pipe(stuff);
+            pid_t state = fork();
+            
+
+            if (!state) {
+                std::cout << "currently in child process and ";
+                show_me();
+
+                close(1);
+
+                dup(stuff[1]);
+
+                close(stuff[0]);
+                int r = execve(bin_file, const_cast<char *const *>(current_argv), const_cast<char *const *>(current_envp));
+
+                perror("execve");   /* execve() returns only on error */
+                return r;
+            }
+            else {
+              
+                close(stuff[1]);
+                //std::printf("currently in parent process, waiting for the child to give us the answer.\n");
+                ssize_t n = read(stuff[0], res, 21);
+
+                //std::printf("read read %zd chars\n", n);
+                close(stuff[0]);
+                waitpid(state, NULL, 0);
+                return 0;
+            }
+            return -1;
+        }
 };

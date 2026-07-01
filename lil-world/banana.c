@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<string.h>
+#include<unistd.h>
 #include<time.h>
 #include"lessgooo.h"
 
@@ -45,8 +46,23 @@ int main(int argc,char* argv[]) {
 	
 	end = clock();
     double time = (double)(end - start)/CLOCKS_PER_SEC;
-	for(int i=(2*s)-1;i>=0;i--)
-	printf("%d%c",C[i],(i == 0) ? 10:32);
-    printf("\nTime Taken = %f ms\n",time*1000);
+	/*for(int i=(2*s)-1;i>=0;i--)
+	printf("%d%c",C[i],(i == 0) ? 10:32);*/
+    
+    //printf("\nTime Taken = %f ms\n",time*1000);
+    
+    char to_give[(2 * s) + 1];
+    
+    int i = 0;
+
+    for (int j = (2 * s) - 1 ; j >= 0; j--) {
+        to_give[i] = C[j] + '0';
+        i += 1;
+    }
+    to_give[2 * s] = '\0';
+    
+    ssize_t how = write(1, to_give, sizeof(to_give));
+    //printf("\n%d\n", how);
+
     }
 }
