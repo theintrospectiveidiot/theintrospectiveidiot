@@ -80,6 +80,7 @@ class var {
 
 void meow() {
     program print_cute_cat {"./meow"};
+    
     print_cute_cat.set_args("./meow");
 
     print_cute_cat.run();
