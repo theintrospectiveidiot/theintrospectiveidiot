@@ -78,6 +78,13 @@ class var {
 
 };
 
+void meow() {
+    program print_cute_cat {"./meow"};
+    print_cute_cat.set_args("./meow");
+
+    print_cute_cat.run();
+}
+
 void start_new_world() {
     program new_world {"./fill_mem"};
     new_world.set_args("./fill_mem");
@@ -153,5 +160,5 @@ int main() {
     int p = rand_i();
 
     std::printf("%d", p);*/
-     
+    meow();     
 }
