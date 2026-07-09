@@ -362,11 +362,12 @@
 
 
 
-(defparameter *me* (make-person 
+(defparameter *me* (make-person-adv 
                    :name "the introspective idiot"
                    :age 19
                    :gender 'male
-                   :occupation 'jobless)
+                   :occupation 'jobless
+                   :fav-function #'rule-30)
   )
 
 (give_me *me*)
@@ -379,7 +380,8 @@
   name
   age
   gender
-  occupation)
+  occupation
+  fav-function)
 
 (defun print-person (person)
               (format t "Name: ~s~%Age: ~d~%Gender: ~a~%Occupation: ~a~%" (person-name person) (person-age person) (person-gender person) (person-occupation person))
@@ -393,6 +395,30 @@
   (format t "  /\\___/\\~% ( 0 w 0 )~%  (_____)~~~~")
   )
 
+(incf )
+
+(function-information )
+
+(describe 'make-array)
+
+(defvar people (make-array 2 :element-type 'person :initial-element *me*))
+
+(setf (aref people 1) (make-person
+                        :name "Abhishek Nalla"
+                        :age 20
+                        :gender 'MALE
+                        :occupation 'jobless-but-not-exactly))
+
+(give_me people)
+
+(describe 'dotimes)
+
+(print people)
+
+people
+
+(function meow)
+
 
 (meow)
   
@@ -400,9 +426,33 @@
  ( 0 w 0 )
   (_____)~~
 
+(defstruct person-adv
+  name
+  age
+  gender
+  occupation
+  fav-function)
 
+(setf (aref people 0) (make-person-adv
+                        :name "Bhabisya Kumar"
+                        :age 20
+                        :gender 'male
+                        :occupation 'jobless
+                        :fav-function #'rule-30)
+      )
 
+(defun print-person-adv (person)
+              (format t "Name: ~s~%Age: ~d~%Gender: ~a~%Occupation: ~a~%" (person-name person) (person-age person) (person-gender person) (person-occupation person))
+              )
 
+(print *me*)
 
+(person-adv-fav-function *me*)
+
+(funcall (person-adv-fav-function *me*) 69)
+
+(print-person-adv (aref people 0))
+
+(defvar people (make-array 2 :element-type 'person-adv :initial-element *me*))
 
 
