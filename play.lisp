@@ -242,7 +242,7 @@
  (if (equal current total)
      'DONE!
      ( progn
-        (print `(bonjour! ,(give_me a)))
+        (format t "bonjour! a est ~d~%" a)
         (let ((temp b))
             ;(print `(temp est ,(give_me temp)))
             (setf b c)
@@ -358,4 +358,33 @@
 (setf (aref *fn-array* 1) #'fib2)
 
 (random-seq 20 (setf num 237))
+
+
+(defstruct person
+  name
+  age
+  gender
+  occupation)
+
+(defparameter *me* (make-person 
+                   :name "the introspective idiot"
+                   :age 19
+                   :gender 'male
+                   :occupation 'jobless)
+  )
+
+(give_me *me*)
+
+(person-gender *me*)
+
+
+
+
+
+
+
+
+
+
+
 
