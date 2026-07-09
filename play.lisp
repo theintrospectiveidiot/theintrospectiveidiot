@@ -442,7 +442,7 @@ people
       )
 
 (defun print-person-adv (person)
-              (format t "Name: ~s~%Age: ~d~%Gender: ~a~%Occupation: ~a~%" (person-name person) (person-age person) (person-gender person) (person-occupation person))
+              (format t "Name: ~s~%Age: ~d~%Gender: ~a~%Occupation: ~a~%" (person-adv-name person) (person-adv-age person) (person-adv-gender person) (person-adv-occupation person))
               )
 
 (print *me*)
@@ -451,8 +451,8 @@ people
 
 (funcall (person-adv-fav-function *me*) 69)
 
-(print-person-adv (aref people 0))
+(print-person-adv (aref more-people 0))
 
-(defvar people (make-array 2 :element-type 'person-adv :initial-element *me*))
+(defvar more-people (make-array 2 :element-type 'person-adv :initial-element *me*))
 
 
