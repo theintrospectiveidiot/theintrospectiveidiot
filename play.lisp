@@ -360,11 +360,7 @@
 (random-seq 20 (setf num 237))
 
 
-(defstruct person
-  name
-  age
-  gender
-  occupation)
+
 
 (defparameter *me* (make-person 
                    :name "the introspective idiot"
@@ -377,10 +373,32 @@
 
 (person-gender *me*)
 
+(setf (person-gender *me*) 'bi)
+
+(defstruct person
+  name
+  age
+  gender
+  occupation)
+
+(defun print-person (person)
+              (format t "Name: ~s~%Age: ~d~%Gender: ~a~%Occupation: ~a~%" (person-name person) (person-age person) (person-gender person) (person-occupation person))
+              )  
+
+(print-person *me*)
+
+(print *me*)
+
+(defun meow ()
+  (format t "  /\\___/\\~% ( 0 w 0 )~%  (_____)~~~~")
+  )
 
 
-
-
+(meow)
+  
+  /\___/\
+ ( 0 w 0 )
+  (_____)~~
 
 
 
