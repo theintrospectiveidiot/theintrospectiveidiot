@@ -191,7 +191,7 @@
      )
     
     ((equal 0 (rem num div))
-     (print `(,(give_me div) is indeed divides ,(give_me num) by ,(/ num div)))
+     (print `(,(give_me div) indeed divides ,(give_me num) by ,(/ num div)))
      'nope-not-a-prime-number
      )
     
@@ -351,7 +351,7 @@
 
 (pre-random-seq #'rule-30 10 (setf num 69))
 
-(defparameter *fn-array* (make-array 3 :initial-element #'rule-30)
+
 (aref *fn-array* 2)
 
 (setf (aref *fn-array* 0) #'fib)
@@ -454,5 +454,57 @@ people
 (print-person-adv (aref more-people 0))
 
 (defvar more-people (make-array 2 :element-type 'person-adv :initial-element *me*))
+
+(pre-random-seq #'rule-30 10 42)
+
+(disassemble #'rule-30)
+
+(describe #'load)
+
+(load "/home/theintrospectiveidiot/experiments/check_prime.lisp")
+(prime? 10)
+
+(heap-allocated-p people)
+
+(format t "bonjour! ~~d est for lisp et %d est for c/c++~%")
+
+(give_me *me*)
+
+(setf (person-adv-fav-function *me*) #'prime?)
+(defparameter me-too (copy-person-adv *me*))
+*me*
+me-too
+
+(defun correct? (obj)
+  (cond 
+    ((equal (type-of (person-adv-occupation obj)) 'symbol)
+     'YUP
+     )
+    (t 
+     'NOPE
+     )
+    )
+  )
+
+(correct? me-too)
+
+(type-of (person-adv-gender me-too))
+
+(setf (person-adv-fav-function me-too) #'rule-30)
+
+(defparameter *hello* 0)
+*hello*
+
+
+
+
+
+
+
+
+
+
+
+
 
 
