@@ -487,13 +487,17 @@ me-too
   )
 
 (correct? me-too)
+(format t "~a~%" *)
 
+(type-of *)
 (type-of (person-adv-gender me-too))
 
 (setf (person-adv-fav-function me-too) #'rule-30)
 
-(defparameter *hello* 0)
+(defparameter *hello* (expt 2 3))
 *hello*
+(type-of *hello*)
+
 
 
 
