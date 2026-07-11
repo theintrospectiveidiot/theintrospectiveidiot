@@ -499,14 +499,77 @@ me-too
 (type-of *hello*)
 
 
+(defstruct point-2d
+  (x 0)
+  (y 0)
+  )
 
+(defparameter X (make-point-2d
+                  :x 10
+                  :y 20
+                  ))
 
+X
 
+(describe #'rule-30)
+(describe function)
 
+(function #'rule-30)
 
+(format )
 
+(princ `(This is X ,X))
 
+(function X)
 
+(defun print-world (world)
+  (cond 
+    ((equal (type-of (world-grid world)) '(SIMPLE-ARRAY T (8 8)))
+     (labels ((print-world-help (row column)
+                  (cond 
+                    ((equal row (car (array-dimensions (world-grid world))))
+                     'DONE
+                     )
+                    ((equal column (cadr (array-dimensions (world-grid world))))
+                      (format t "~%")
+                      (print-world-help (+ 1 row) 0)
+                     )
+                    (t
+                     (format t "~d" (aref (world-grid world) row column))
+                     (print-world-help row (+ column 1))   
+                     )
+                    )
+                  )
+                )
+           (print-world-help 0 0) 
+         )
+     )
+    (t 
+     'cant-proceed
+     )
+    )
+  )
+
+(defstruct cell
+  pos
+  nei-pos
+  life
+  )
+
+(defstruct world
+  grid
+  (gen 0)
+  )
+
+(defparameter stuff (make-array '(2 2) :initial-element 0))
+
+(format t "~d" (aref stuff 0 1))
+
+(print-world (make-world
+               :grid (make-array '(8 8) :element-type 'cell)
+               ))
+
+(type-of (make-array '(512 512)))
 
 
 
