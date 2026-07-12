@@ -367,7 +367,7 @@
                    :age 19
                    :gender 'male
                    :occupation 'jobless
-                   :fav-function #'rule-30)
+                   :fav-function 'rule-30)
   )
 
 (give_me *me*)
@@ -438,7 +438,7 @@ people
                         :age 20
                         :gender 'male
                         :occupation 'jobless
-                        :fav-function #'rule-30)
+                        :fav-function 'rule-30)
       )
 
 (defun print-person-adv (person)
@@ -571,7 +571,11 @@ X
 
 (type-of (make-array '(512 512)))
 
+(funcall (person-adv-fav-function *me*) 69)
 
+; IMPORTANT PIECE OF INFORMATION. DO NOT FORGET. 
 
+; #' dereferences the function as soon as u hand it over, so eseentially its copying the function. so changing the function in the future without re-executing the variable definition would give u the output of the earlier definition of the function.
 
+; just ' is basically saying that its a symbol. now, what that symbol means is something the system will figure out. so, if u updathe function, u need not re-execute the whole definition of that variable. 
 
