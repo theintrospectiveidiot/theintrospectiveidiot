@@ -339,7 +339,7 @@
                 'DONE
                 )
                (t (let ((next-num (funcall which-rule num)))
-                    (print num)
+                    (print (logxor num (ash (ash num -8) 8)))
                     (random-seq-helper how-many next-num (+ current 1))
                     ))
                )
@@ -349,8 +349,30 @@
   
   )
 
-(pre-random-seq #'rule-30 10 (setf num 69))
+(pre-random-seq 'rule-30 30 (setf num 69))
 
+(defparameter num2 (expt 2 3))
+num2
+(setf num2 7)
+(ash num2 6)
+(ash 448 -6)
+
+(format t "~b~%" 448)
+; 69 => 0 1 0 0 0 1 0 1 
+; 07 => 0 0 1 0 0 1 1 1
+;       0 0 1 0 0 1 0 0 (XOR)
+;       0 0 0 0 0 0 1 1
+
+(/ 4416 7)
+(* (expt 2 6) 7)
+(ash 4416 -6)
+(ash (ash num2 6) -6)
+
+(logxor num2 (ash (ash num2 -2) 2))
+
+(ash (ash num (- 512 16)) (- 16 512))
+
+(format t "~b~%" num)
 
 (aref *fn-array* 2)
 
@@ -565,6 +587,49 @@ X
 
 (format t "~d" (aref stuff 0 1))
 
+(defun give-neighbours-help (world cell)
+  (let ((neighbrs (make-array 8 :element-type 'cell :initial-element cell))
+        (x (car (cell-pos cell)))
+        (y (cadr (cell-pos cell))))
+     (setf (aref neighbrs 0) (aref (world-grid world) (- 1 x) (- 1 y)))    
+     (setf (aref neighbrs 1) (aref (world-grid world) (- 0 x) (- 1 y))) 
+     (setf (aref neighbrs 2) (aref (world-grid world) (+ 1 x) (- 1 y)))
+     (setf (aref neighbrs 3) (aref (world-grid world) (- 1 x) (- 0 y)))
+     (setf (aref neighbrs 4) (aref (world-grid world) (+ 1 x) (- 0 y)))
+     (setf (aref neighbrs 5) (aref (world-grid world) (- 1 x) (+ 1 y)))
+     (setf (aref neighbrs 5) (aref (world-grid world) (+ 0 x) (+ 1 y)))
+     (setf (aref neighbrs 6) (aref (world-grid world) (+ 1 x) (+ 1 y)))
+     ) 
+  )
+
+(defun give-neighbours (world)
+  (cond 
+    ((equal (type-of (world-grid world)) '(SIMPLE-ARRAY T (8 8)))
+     (labels ((print-world-help (row column)
+                  (cond 
+                    ((equal row (car (array-dimensions (world-grid world))))
+                     'DONE
+                     )
+                    ((equal column (cadr (array-dimensions (world-grid world))))
+                      (format t "~%")
+                      (print-world-help (+ 1 row) 0)
+                     )
+                    (t
+                     (format t "~d" (aref (world-grid world) row column))
+                     (print-world-help row (+ column 1))   
+                     )
+                    )
+                  )
+                )
+           (print-world-help 0 0) 
+         )
+     )
+    (t 
+     'cant-proceed
+     )
+    )
+  )
+
 (print-world (make-world
                :grid (make-array '(8 8) :element-type 'cell)
                ))
@@ -573,9 +638,17 @@ X
 
 (funcall (person-adv-fav-function *me*) 69)
 
+(defun apply-rules (world)
+  (let ((row_ 0)
+        (col_ 0))
+    ()
+    )
+  )
+
 ; IMPORTANT PIECE OF INFORMATION. DO NOT FORGET. 
 
 ; #' dereferences the function as soon as u hand it over, so eseentially its copying the function. so changing the function in the future without re-executing the variable definition would give u the output of the earlier definition of the function.
 
 ; just ' is basically saying that its a symbol. now, what that symbol means is something the system will figure out. so, if u updathe function, u need not re-execute the whole definition of that variable. 
+
 
