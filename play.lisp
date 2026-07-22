@@ -349,7 +349,9 @@
   
   )
 
-(pre-random-seq 'rule-30 30 (setf num 69))
+(pre-random-seq 'rule-30 60 (setf num 69))
+
+; 69 comes back after 43 numbers. so, its a repeating pattern
 
 (defparameter num2 (expt 2 3))
 num2
@@ -651,4 +653,17 @@ X
 
 ; just ' is basically saying that its a symbol. now, what that symbol means is something the system will figure out. so, if u updathe function, u need not re-execute the whole definition of that variable. 
 
+(defun give-me-fn (op)
+  (cond
+   ((eq op 'edd) (lambda (num1 num2) (+ num1 num2))) 
+   ((eq op 'zub) (lambda (num1 num2) (- num1 num2)))
+   ((eq op 'into) (lambda (num1 num2) (* num1 num2)))
+   (t 'dont-know-which-function-u-want)
+   )
+  )
 
+
+(give-me-fn edd) (1 1)
+(funcall (give-me-fn 'edd) 1 1)
+
+((lambda () 'HELLO)) 
