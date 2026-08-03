@@ -2,12 +2,12 @@
   (+ num 1)
   )
 
-(defparameter *num* 2)
-
+(defparameter num 2)
+(setf num 3)
 (defparameter *num* 3)
 
 (do_something_mine *num*)
-*num*
+num
 (ash 11 01) ;01011 (11) => 10110 (22) (11 << 1)
 (ash 11 -1) ;01011 (11) => 00101 (05) (11 >> 1)
 
@@ -226,7 +226,7 @@
 (append '(hello there and ) '(how are you?))
 
 
-(defun give_me (val)
+(defun give-me (val)
   val
   )
 
@@ -665,5 +665,153 @@ X
 
 (give-me-fn edd) (1 1)
 (funcall (give-me-fn 'edd) 1 1)
+(describe 'defstruct)
+((lambda () 'HELLO))
+(type-of *)
+(return "HELLO")
 
-((lambda () 'HELLO)) 
+(defparameter )
+
+(give_me "HELLO")  ; use this for object inspection in your wannabe-lisp-listener!!
+(type-of *me*)
+(princ `(,*))
+
+(type-of *)
+
+; PROBLEM:
+; SUPPOSE U ARE USING THE SAME SERVER, i.e. THE SAME REPL for the user stuff, and your inspection stuff. Now, if the user does 
+; something like (type-of *), u somehow manually need to evaluate that last user argument. cuz u might have done the object
+; inspection. MAYBE USE ANOTHER SERVER FOR YOUR STUFF? LIKE, WHEN U WANNA INSPECT, THEN TRY TO DECLARE AND DO THE INSPECTION 
+; THING in another server...?
+; I DONT KNOW MAN, THIS SEEMS A LIL' HARD NOW.
+
+
+(type-of *)
+
+(prin1-to-string 'HELLO)
+(describe 'prin1)
+
+(defun change-val (num)
+  (setf num (ash num 1))
+  )
+
+(defun do-this-et-that ()
+  (let ((a 2)
+        (b 3))
+    (format t "a: ~d => " a)
+    (change-val a)
+    (format t "~d~%b: ~d => " a b)
+    (change-val b)
+    (format t "~d~%" b)
+    )
+  )
+
+(do-this-et-that)
+(defparameter *nodes* '((living-room (you are in the living-room. a wizard is snoring loudly on the couch.))
+                        (garden (you are in a beautiful garden. there is a well in front of you.))
+                        (attic (you are in the attic. there is a giant welding torch in the corner.)))
+  )
+
+(assoc 'garden *nodes*)
+
+(describe 'assoc)
+
+(describe 'the)
+
+(defstruct student
+  name
+  dept
+  roll
+  cgpa
+  )
+
+(defparameter s1 (make-student 
+                   :name "Harshit"
+                   :dept "IT"
+                   :roll 87
+                   :cgpa 9
+                   ))
+
+(defparameter s2 (make-student 
+                   :name "Vansh"
+                   :dept "IT"
+                   :roll 61
+                   :cgpa 9.5
+                   ))
+
+(defparameter s3 (make-student 
+                   :name "Satyam"
+                   :dept "IT"
+                   :roll 79
+                   :cgpa 10
+                   ))
+
+(defun highest (people)
+  (let ((temp (student-cgpa (car people))))
+   (labels ((highest-helper (peoples)
+            (cond
+                ((eq peoples '())
+                 temp
+                )
+                
+                ((< temp (student-cgpa (car peoples))) 
+                 (setf temp (student-cgpa (car peoples)))
+                 (highest-helper (cdr peoples))
+                )
+                
+                (t (highest-helper (cdr peoples)))
+            )
+        ))
+     (highest-helper people)
+     ) 
+    )
+  )
+
+(defun highest (people)
+ (cadr people) 
+  )
+
+(highest (list s1 s2 s3))
+
+(defun div (a b)
+  (/ (- a (rem a b)) b)
+  )
+
+
+(div 5 2)
+(defun binary-search (lst item)
+  (let ((high (- (array-total-size lst) 1))
+        (low 0))
+    (labels ((binary-search-helper (stuff low high)
+               (let ((mid (+ low (div (- high low) 2)))) 
+                 (cond
+                   ((> low high) 
+                    'item-not-there-in-list
+                     ) 
+                   ((equal (aref stuff mid) item)
+                     mid
+                     )
+                   ((> item (aref stuff mid))
+                     (binary-search-helper stuff (+ mid 1) high)
+                     )
+                   (t (binary-search-helper stuff low (- mid 1)))
+                   )  
+                 ))) 
+      (binary-search-helper lst low high)
+      )
+    )
+  )
+
+(binary-search #(5 67 89 357 876 900 1000 1223 3081) 1223)
+
+(type-of arr)
+(defparameter arr #(1 2 3 4))
+
+
+
+
+
+
+
+
+
