@@ -780,8 +780,7 @@ X
 
 (div 5 2)
 (defun binary-search (lst item)
-  (let ((high (- (array-total-size lst) 1))
-        (low 0))
+  (let ((count-steps 0))
     (labels ((binary-search-helper (stuff low high)
                (let ((mid (+ low (div (- high low) 2)))) 
                  (cond
@@ -789,15 +788,18 @@ X
                     'item-not-there-in-list
                      ) 
                    ((equal (aref stuff mid) item)
-                     mid
+                     (format t "found ~d in the list in ~dth index in ~d total steps" item mid count-steps)
                      )
                    ((> item (aref stuff mid))
+                     (setf count-steps (+ count-steps 1))
                      (binary-search-helper stuff (+ mid 1) high)
                      )
-                   (t (binary-search-helper stuff low (- mid 1)))
+                   (t
+                    (setf count-steps (+ count-steps 1))
+                    (binary-search-helper stuff low (- mid 1)))
                    )  
                  ))) 
-      (binary-search-helper lst low high)
+      (binary-search-helper lst 0 (- (array-total-size lst) 1))
       )
     )
   )
