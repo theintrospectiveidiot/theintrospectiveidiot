@@ -240,9 +240,9 @@ num
 
 (defun fib_helper (total current a b c)
  (if (equal current total)
-     'DONE!
-     ( progn
-        (format t "bonjour! a est ~d~%" a)
+     a
+     (progn
+        ;(format t "bonjour! a est ~d~%" a)
         (let ((temp b))
             ;(print `(temp est ,(give_me temp)))
             (setf b c)
@@ -254,6 +254,18 @@ num
        )
     ) 
  )
+
+(disassemble #'fib_helper)
+
+;; TCO => n optimiation for tail recursion calls.
+;; basically, when u do tail recursion, instead of creating a new stack frame for each call, it uses the same stack frame!! ISN'T IT SO COOL?! try to disassemble, and u'll see the JMP instead of regular CALL, means it just jumps to the start of the stack frame of that function. this is prolly the coolest optimizations trick i've studied yet!! 
+
+(count-down 1000000000)
+(defun count-down (n)
+  (if (zerop n)
+      0
+      (count-down (1- n))))
+
 
 (fib 10)
 
@@ -777,8 +789,6 @@ X
   (/ (- a (rem a b)) b)
   )
 
-
-(div 5 2)
 (defun binary-search (lst item)
   (let ((count-steps 0))
     (labels ((binary-search-helper (stuff low high)
@@ -788,7 +798,7 @@ X
                     'item-not-there-in-list
                      ) 
                    ((equal (aref stuff mid) item)
-                     (format t "found ~d in the list in ~dth index in ~d total steps" item mid count-steps)
+                    `(,item in ,mid th index in total of ,count-steps steps) 
                      )
                    ((> item (aref stuff mid))
                      (setf count-steps (+ count-steps 1))
