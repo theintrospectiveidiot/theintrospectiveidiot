@@ -74,6 +74,7 @@ Node *make_node(int t_e_c, Mode mode, int *game_state, int move) {
     new->depth = 0;
     new->mode = mode;
     new->score = 0;
+    new->upper = NULL;
 
     new->best_move = NULL;               //default value is zero.
                                  
@@ -167,13 +168,25 @@ Node *best(Node *node) {
 
     for (int i = 1; i < node->temp_empty_cells; i++) {
         best = max(best, node->branch[i]->node);        
-        printf("mode: %s\nmove %d -> score %d\n", (node->branch[i]->node->mode == COMPUTER ? "COMPUTER" : "PLAYER"), node->branch[i]->move, node->branch[i]->node->score);
+        //printf("mode: %s\nmove %d -> score %d\n", (node->branch[i]->node->mode == COMPUTER ? "COMPUTER" : "PLAYER"), node->branch[i]->move, node->branch[i]->node->score);
     }
     // try to make some sort of depth counter...? i. e. to find the winning move in least amount of steps...
     // now of course celebrate that it works as you desired it to!!
 
 
     return best;
+}
+
+void communicate_with_ancestors(Node *node) {
+    Node *temp = node;
+    int counter = 0;
+    
+    while(temp != NULL) {
+        temp->depth += counter;
+
+        counter += 1;
+        temp = temp->upper;
+    }
 }
 
 void load_game_pro(Node *root) {
@@ -190,6 +203,8 @@ void load_game_pro(Node *root) {
     
     for (int i = 0; i < root->temp_empty_cells; i++) {
         int temp;
+        communicate_with_ancestors(root->branch[i]->node);
+
         if ((temp = eval(root->branch[i]->node->mode, root->branch[i]->node->game_state)) != GAME_NOT_OVER) {
             root->branch[i]->node->score = temp;
             root->branch[i]->node->is_it_leaf = 1;
@@ -386,6 +401,7 @@ int main(int argc, char **argv) {
     
     game[0] = 2; empty_cells -= 1;
     game[8] = 2; empty_cells -= 1;
+    game[1] = 1; empty_cells -= 1;
 
     Node *root = load_game(2, COMPUTER, game);
     
@@ -406,7 +422,7 @@ int main(int argc, char **argv) {
     temp = temp->best_move;
     }
     
-    printf("%d\n", root->score);
+    //printf("%d\n", root->score);
     //int game[9] = {0, 0, 2, 0, 2, 0, 2, 0, 0}; 
 
     //show(game);
