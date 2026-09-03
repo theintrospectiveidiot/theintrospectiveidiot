@@ -161,7 +161,6 @@ Node *min(Node *a, Node *b) {
 
 Node *best(Node *node) {
     if (node->is_it_leaf) {
-        node->depth = 0;
         return node;
     }
 
@@ -182,13 +181,12 @@ Node *best(Node *node) {
 
 void load_game_pro(Node *root) {
     if (!root->temp_empty_cells) {
-        root->score = 0;
         root->is_it_leaf = 1;
         return;
     }
 
     //show(root->game_state);
-    //printf("bonjour! je suis %s mode et je have %d empty cells in je game state\n", (root->mode == PLAYER ? "Player" : "Computer"), root->temp_empty_cells);
+    //printf("bonjour! je suis %s mode et je have %d empty cells in je game state\n", (root->mode == player ? "player" : "computer"), root->temp_empty_cells);
 
     balloc(root);
     
@@ -391,8 +389,9 @@ int main(int argc, char **argv) {
     
     game[0] = 2; empty_cells -= 1;
     game[8] = 2; empty_cells -= 1;
-    game[1] = 1; empty_cells -= 1;
-
+    game[3] = 1; empty_cells -= 1;
+    game[7] = 1; empty_cells -= 1;
+    
     Node *root = load_game(6, COMPUTER, game);
     
    
