@@ -40,7 +40,7 @@ struct Node {
 
     Node *upper;
 
-    Node *best_move;
+    Branch *best_move;
     Branch **branch;
 };
 
@@ -150,8 +150,17 @@ Result eval(Mode mode, int *game) {
     else return GAME_NOT_OVER;
 }
 
-Node *max(Node *a, Node *b) {
-    return (a->score > b->score ? a : (a->score == b->score ? (a->depth <= b->depth ? a : b) : b));
+Branch *max(Branch *a, Branch *b) {
+    if (a->node->score != b->node->score) {
+        return (a->node->score > b->node->score ? a : b);
+    }
+    
+    else {
+        if (a->node->score >= 0) {
+            return a->node->depth <= b->node->depth ? a : b;
+        }
+        else return a->node->depth >= b->node->depth ? a : b;
+    }
 }
 
 Node *min(Node *a, Node *b) {
@@ -159,21 +168,21 @@ Node *min(Node *a, Node *b) {
 }
 
 
-Node *best(Node *node) {
+Branch *best(Node *node) {
     if (node->is_it_leaf) {
-        return node;
+        return NULL;
     }
 
-    Node *best = node->branch[0]->node;
+    Branch *best = node->branch[0];
 
     for (int i = 1; i < node->temp_empty_cells; i++) {
-        best = max(best, node->branch[i]->node);    
-        //printf("mode: %s\nmove %d -> score %d\n", (node->branch[i]->node->mode == COMPUTER ? "COMPUTER" : "PLAYER"), node->branch[i]->move, node->branch[i]->node->score);
+        best = max(best, node->branch[i]);    
+       //printf("mode: %s\nmove %d -> score %d\n", (node->branch[i]->node->mode == COMPUTER ? "COMPUTER" : "PLAYER"), node->branch[i]->move, node->branch[i]->node->score);
     }
     // try to make some sort of depth counter...? i. e. to find the winning move in least amount of steps...
     // now of course celebrate that it works as you desired it to!!
 
-    node->depth = best->depth + 1;
+    node->depth = best->node->depth + 1;
     
     //best->upper->depth += 1;
     return best;
@@ -186,7 +195,7 @@ void load_game_pro(Node *root) {
     }
 
     //show(root->game_state);
-    //printf("bonjour! je suis %s mode et je have %d empty cells in je game state\n", (root->mode == player ? "player" : "computer"), root->temp_empty_cells);
+    //printf("bonjour! je suis %s mode et je have %d empty cells in je game state\n", (root->mode == PLAYER ? "player" : "computer"), root->temp_empty_cells);
 
     balloc(root);
     
@@ -203,7 +212,10 @@ void load_game_pro(Node *root) {
 
 
     root->best_move = best(root);    
-    root->score     = -(root->best_move->score);
+    root->score     = -(root->best_move->node->score);
+    
+    printf("mode: %s\tscore: %d\nbest (for child): %d\n", root->mode == PLAYER ? "PLAYER" : "COMPUTER", root->score, root->best_move->move);
+
 }
 
 
@@ -388,13 +400,8 @@ int main(int argc, char **argv) {
     int *game = init_game();
     
     game[0] = 2; empty_cells -= 1;
-    game[8] = 2; empty_cells -= 1;
-    game[3] = 1; empty_cells -= 1;
-    game[7] = 1; empty_cells -= 1;
     
-    Node *root = load_game(6, COMPUTER, game);
-    
-   
+    Node *root = load_game(8, COMPUTER, game);
     Node *temp = root;
 
     
@@ -409,7 +416,7 @@ int main(int argc, char **argv) {
             break;
         }
         
-        temp = temp->best_move;
+        temp = temp->best_move->node;
     }
     
     printf("%d\n", root->depth);
